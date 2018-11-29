@@ -54,39 +54,56 @@ client.on("message", message => {
 });
 
 
-    client.on('message', message => {
-  
-      if(message.content.split(' ')[0] == '/sug'){
-          if (message.author.bot) return;
-        
-                              let args = message.content.split(' ').slice(1).join(' ');
-                                   if (!args) return message.reply("You Have To Write A Msg !");
-      
-        let embed = new Discord.RichEmbed()
-                                                      .setAuthor(message.author.username, message.author.avatarURL)
-                                                      .setDescription('**__:mailbox_with_mail: Suggestion Sent !__**')
-                                                      .setThumbnail(message.author.avatarURL)
-                                                      .addField("**-Sent By :**", message.author.username)
-                                                          .addField("**-Sender ID :**", message.author.id)
-                                                      .addField("**-Suggest :**", args)
-                                                      .setColor("FF0000")
-                                                      .setFooter(message.author.username, message.author.avatarURL)
-                                                     
-                                                      
-       client.channels.get("516312579077832709").send({ embed: embed });
-        let embed = new Discord.RichEmbed()
-                                                      .setAuthor(message.author.username, message.author.avatarURL)
-                                                      .setDescription('**__:mailbox_with_mail: Suggestion Sent Successfully !__**')
-                                                      .setThumbnail(message.author.avatarURL)
-                                                      .setColor("FF0000")
-      
-                                                      .setFooter(message.author.username, message.author.avatarURL)
-                                                      message.channel.sendEmbed({ embed: embed });
-                 
-                                        
-      }
-      });
+ client.on('message', message => {
+if(message.content.startsWith(prefix +'sug')) {
+if(!message.channel.guild) return message.channel.send('**This Command Only For Servers **').then(m => m.delete(5000));
+      const A8tra7Room = message.guild.channels.find("name", "suggestions")
+      if(!message.channel.guild) return message.reply(`This Command Only For Servers :x:`);
+   let a8tra7 = message.content.split(' ').slice(1).join(' ')
+   var m8tr7 = message.author.id
+if(!message.guild.channels.find("name","suggestions")) return message.channel.send('i cant find `suggestions` room!')
+   var ThxForSug = new Discord.RichEmbed()
+      .setColor('WHITE')
+   .setTitle(`:white_check_mark: Success!`)
+   .setTimestamp()
+   .setDescription(`Thanks for your suggestion! :sparkles: `)
+.setDescription(`**Your Suggestion** : ${a8tra7}`)
+   var Sure = new Discord.RichEmbed()
+   .setTimestamp()
+      .setColor('WHITE')
+   .setTitle(`Are you sure you send the proposal? You have a minute before canceling.`)               
+.setDescription(`Suggestion : **${a8tra7}**`)
+		 .setFooter('Galaxy Games' , client.user.avatarURL)
+message.channel.sendEmbed(Sure).then(msg => {
+    msg.react('❎')
+.then(() => msg.react('✅'))
 
+let YesFilter = (reaction, user) => reaction.emoji.name === '✅'  && user.id === message.author.id;
+let NoFilter = (reaction, user) => reaction.emoji.name === '❎' && user.id === message.author.id;
+
+let Yes = msg.createReactionCollector(YesFilter, { time: 60000 });
+let No = msg.createReactionCollector(NoFilter, { time: 60000 });
+
+Yes.on("collect", r => {
+   var ala8tra7 = new Discord.RichEmbed()
+   .setTimestamp()
+   .setColor('GOLD')
+   .setThumbnail(message.author.avatarURL)
+   .setTitle(`New Suggestion :bell:`)
+   .setDescription(`From : __<@${m8tr7}>__\n\nSuggestion: **${a8tra7}**`)
+   .setFooter(`${message.author.username}#${message.author.discriminator}`)
+   A8tra7Room.send(ala8tra7)
+   message.channel.sendEmbed(ThxForSug).then(message => {message.delete(6000)})
+msg.delete();
+})
+No.on("collect", r => {
+message.channel.send('suggestion canceled :white_check_mark: ').then(message => {message.delete(6000)})
+msg.delete();
+})
+})
+}			     
+});                        
+  
 
 
 const seender = 'Brodcast + Sender -> {sender}.';
