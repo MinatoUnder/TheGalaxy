@@ -74,7 +74,7 @@ client.on("message", message => {
                                                      
                                                       
        client.channels.get("516312579077832709").send({ embed: embed });
-        let embe = new Discord.RichEmbed()
+        let embed = new Discord.RichEmbed()
                                                       .setAuthor(message.author.username, message.author.avatarURL)
                                                       .setDescription('**__:mailbox_with_mail: Suggestion Sent Successfully !__**')
                                                       .setThumbnail(message.author.avatarURL)
