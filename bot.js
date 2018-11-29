@@ -26,7 +26,7 @@ spee={};
 
 
 client.on('ready', () => {
-     client.user.setActivity("Galaxy Server",{type: 'WATCHING'})
+     client.user.setActivity("The Universe 🌌",{type: 'WATCHING'})
  
 });
 
@@ -169,44 +169,6 @@ client.on('guildMemberAdd', (member) => {
 
 
 //report
-client.on('message', function(message) {
-    if(message.content.startsWith(prefix + "report")) {
-        let messageArgs = message.content.split(" ").slice(1).join(" ");
-        let messageReason = message.content.split(" ").slice(2).join(" ");
-        if(!messageReason) return message.reply("**# Specify a reason!**");
-    let mUser = message.mentions.users.first();
-    if(!mUser) return message.channel.send("Couldn't find user.");
-    let Rembed = new Discord.RichEmbed()
-    .setTitle("`New Report!`")
-    .setThumbnail(message.author.avatarURL)
-    .addField("**# - Reported User:**",mUser,true)
-    .addField("**# - Reported User ID:**",mUser.id,true)
-    .addField("**# - Reason:**",messageReason,true)
-    .addField("**# - Channel:**",message.channel,true)
-    .addField("**# - Time:**",message.createdAt,true)
-    .setFooter("**If the report is a joke, the owner of the report will be ban to the server**")
-message.channel.send(Rembed)
-message.channel.send("**Are you sure you want to send this to the Server owner !**").then(msg => {
-    msg.react("✅")
-    msg.react("❌")
-.then(() => msg.react('❌'))
-.then(() =>msg.react('✅'))
-let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
-let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
-
-let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
-let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
-reaction1.on("collect", r => {
-    message.guild.owner.send(Rembed)
-    message.reply("**# - Done! 🎇**");
-})
-reaction2.on("collect", r => {
-    message.reply("**# - Canceled!**");
-})
-})
-}
-});
-
   client.on("message", message => {
     let args = message.content.split(" ").slice(1);
   if (message.content.startsWith('/report')) {
@@ -226,25 +188,13 @@ reaction2.on("collect", r => {
       .addField('Reason', reason);
       message.delete()
       return client.channels.get(modlog.id).sendEmbed(embed).catch(console.error);
+ if (!args) return message.reply('**Done !**');
   }
   });
 
 
 
 
-
-
-client.on('message', message => {
-  if (!message.channel.guild) return;
-if(message.content =='/count')
-var IzRo = new Discord.RichEmbed()
-.setThumbnail(message.author.avatarURL)
-.setFooter(message.author.username, message.author.avatarURL)
-.setTitle(':bookmark:| Members info')
-.addBlankField(true)
-.addField('Members Count',`${message.guild.memberCount}`)
-message.channel.send(IzRo);
-});
 
 
 //apply
@@ -399,22 +349,22 @@ client.on('message', message => {
      
   if (message.content.startsWith(adminprefix + 'setgame')) {
     client.user.setGame(argresult);
-      message.channel.send(`LastCodes   ${argresult}**`)
+      message.channel.send(`Done   ${argresult}**`)
   } else
      if (message.content === (adminprefix + "leave")) {
     message.guild.leave();        
   } else  
   if (message.content.startsWith(adminprefix + 'setw')) {
   client.user.setActivity(argresult, {type:'WATCHING'});
-      message.channel.send(`LastCodes   ${argresult}**`)
+      message.channel.send(`Done   ${argresult}**`)
   } else
   if (message.content.startsWith(adminprefix + 'setl')) {
   client.user.setActivity(argresult , {type:'LISTENING'});
-      message.channel.send(`LastCodes   ${argresult}**`)
+      message.channel.send(`Done   ${argresult}**`)
   } else
   if (message.content.startsWith(adminprefix + 'sets')) {
     client.user.setGame(argresult, "https://www.twitch.tv/Ninja");
-      message.channel.send(`LastCodes`)
+      message.channel.send(`Done`)
   }
   if (message.content.startsWith(adminprefix + 'setname')) {
   client.user.setUsername(argresult).then
@@ -459,22 +409,6 @@ message.channel.send({embed:embed});
                     });
 
 
- client.on('message', ra3d => {
- var prefix = "/";
-                         let args = ra3d.content.split(" ").slice(1).join(" ")
- if(ra3d.content.startsWith(prefix + 'ccolors')) {
-     if(!args) return ra3d.channel.send('`How Many Colors??`');
-              if (!ra3d.member.hasPermission('MANAGE_ROLES')) return ra3d.channel.sendMessage('**You Dont Have Permission `MANAGE_ROLES`**'); 
-               ra3d.channel.send(`**✅ |Created __${args}__ Colors**`);
-                   setInterval(function(){})
-                     let count = 0;
-                     let ecount = 0;
-           for(let x = 1; x < `${parseInt(args)+1}`; x++){
-             ra3d.guild.createRole({name:x,
-               color: 'RANDOM'})
-               }
-             }
-        });
 
 
 client.on('message', async message => {
@@ -881,7 +815,7 @@ client.on('message', message => {
 
 
 client.on('message', async message =>{
-  var prefix = "-";
+  var prefix = "/";
 const ms = require("ms");
 if (message.author.omar) return;
 if (!message.content.startsWith(prefix)) return;
@@ -1049,7 +983,7 @@ if(null == message.guild || !message.guild) return;
 
 
 client.on('message', message => {
- 	var prefix = "-"
+ 	var prefix = "/"
    if (message.author.x5bz) return;
    if (!message.content.startsWith(prefix)) return;
  
@@ -1271,6 +1205,148 @@ by : <@${eyad.author.id}>
 eyad.channel.sendEmbed(Embed11).then(eyad => {eyad.delete(15000)})
     }
 })
+
+
+
+
+
+
+client.on('message', message => {
+  if(message.content.startsWith(prefix + "invites")) {
+   message.guild.fetchInvites().then(invs => {
+     let user = message.mentions.users.first() || message.author
+     let personalInvites = invs.filter(i => i.inviter.id === user.id);
+     let inviteCount = personalInvites.reduce((p, v) => v.uses + p, 0);
+message.channel.send(`${user} has ${inviteCount} invites.`);
+});
+ }
+});
+
+
+
+client.on('message', message => {
+    if (message.content.startsWith(prefix + "avatar")) {
+        var mentionned = message.mentions.users.first();
+    var x5bzm;
+      if(mentionned){
+          var x5bzm = mentionned;
+      } else {
+          var x5bzm = message.author;
+          
+      }
+        const embed = new Discord.RichEmbed()
+        .setColor("RANDOM")
+        .setImage(`${x5bzm.avatarURL}`)
+      message.channel.sendEmbed(embed);
+    }
+});
+
+
+
+client.on('message', msg => {
+    if(msg.content.startsWith('/bot')) {
+    if(msg.channel.type === 'dm') return;
+const user = msg.mentions.users.first();
+if(!user) return msg.channel.send('``' + '**Name Of bot ?**' + '``')
+if(!user.bot) return msg.reply('\`Montion Bot\`');
+msg.channel.send(`**Bot InviteURL : ** https://discordapp.com/oauth2/authorize?client_id=${user.id}&scope=bot&permissions=384064`)
+    }
+});
+
+
+
+
+client.on('message', message => {
+  if (message.content.startsWith('/welcome')) {
+    const voiceChannel = message.member.voiceChannel;
+    voiceChannel.join()
+      .then(connnection => {
+        const stream = ytdl("https://www.youtube.com/watch?v=EBad-LxJJnE", { filter: 'audioonly' });
+        const dispatcher = connnection.playStream(stream);
+                dispatcher.on('end', () => voiceChannel.leave());
+
+      });///////////MaL Team 
+  }
+})//////////////////////////Mal Team
+
+
+
+client.on('message', async message => {
+  if(message.content.startsWith(prefix + "write")) {
+  await  message.channel.send(`write You`)
+    let filter = m => m.author.id === message.author.id
+      var text = '';
+        let sugsa = message.channel.awaitMessages(filter, { max: 1, time: 60000})
+          .then(co => {
+            text = co.first().content
+
+              message.channel.send(`Done`)
+                client.channels.get("508469157893898244").send(`${message.author.username}'s said => ${text}`)
+
+              })
+            }
+          })
+
+
+client.on('guildMemberAdd', member => { //LAST CODES -HONRAR-
+  member.guild.fetchInvites().then(guildInvites => {
+    const ei = invites[member.guild.id];
+    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
+    const inviter = client.users.get(invite.inviter.id);
+    const stewart = member.guild.channels.find("name", "﹐general");
+     stewart.send(`<@${member.user.id}> Invite By <@${inviter.id}>`);
+   //  stewart.send(`<@${member.user.id}> joined using invite code ${invite.code} from <@${inviter.id}>. Invite was used ${invite.uses} times since its creation.`);
+  });
+})
+
+
+client.on('message', msg => {
+
+    if (msg.content == '$join') {
+        if (msg.member.voiceChannel) {
+
+     if (msg.member.voiceChannel.joinable) {
+         msg.member.voiceChannel.join().then(msg.react('white_check_mark'));
+     }
+    }
+}
+})
+client.on('ready', () => { //code bot not leave room voice //Bot Is Online
+    client.channels.get("517823824348053535").join(); //by : Toxic Codes
+    });
+
+
+
+
+client.on('message', async msg => {
+const devs = ['Your ID here'];
+if(!devs.includes(message.author.id)) return;
+  if(msg.author.bot) return;
+  let prefix = "$";
+  if(!msg.content.startsWith(prefix)) return;
+  let command = msg.content.split(" ")[0].slice(prefix.length);
+  let args = msg.content.split(" ").slice(1);
+ 
+  if(command == 'say') {
+    if(!args.join(" ")) return msg.delete();
+    msg.channel.send(args.join(" "));
+    return;
+  }
+});
+
+
+
+
+
+client.on('ready', () => {
+    client.user.setStatus("dnd");
+ 
+ });
+
+
+
+
+
 
 
 
