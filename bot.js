@@ -107,16 +107,6 @@ client.on('message', message => {
                                    });
 
 
-client.on('message', message => {                      
-    if(!message.channel.guild) return;
-       if(message.content.startsWith(prefix + 'verify'))
-         .then(m => m.delete(5000));
-
-                                   })
-                                   })
-                                   }
-                                   });
-
 
 
 
