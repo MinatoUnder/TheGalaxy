@@ -34,7 +34,7 @@ client.on('ready', () => {
 
 
 client.on("message", message => {
-  if(message.content.startsWith("/verify")) {
+  if(message.content.startsWith("/gaming")) {
     let num = Math.floor((Math.random() * 4783) + 10);
  
     message.channel.send(`Please type to verify: **${num}**`).then(m => {
@@ -45,13 +45,72 @@ client.on("message", message => {
       }).then(collected => {
         message.delete();
         m.delete();
-        message.member.addRole(message.guild.roles.find(c => c.name == "• Galaxy » Members"));
+        message.member.addRole(message.guild.roles.find(c => c.name == "• Galaxy » Gaming"));
       }).catch(() => {
         m.edit(`You took to long to type the number.\nRe-type the command again if you want to verify yourself.`).then(m2 => m.delete(15000));
       });
     });
   }
 });
+
+
+
+
+
+client.on("message",  message => {
+    var prefix = "/";
+    let args = message.content.split(' ').slice(1);
+if(message.content.startsWith(prefix + 'nic')) {
+   if (!message.member.hasPermission("MANAGE_NICKNAMES")) {
+       message.channel.send("Write the name")
+   } else {
+       if (!message.guild.member(client.user).hasPermission('MANAGE_NICKNAMES')) return message.reply(' ❌ Bot Is not have MANAGE_NICKNAMES.').catch(console.error);
+       let changenick = message.mentions.users.first();
+       let username = args.slice(1).join(' ')
+       if (username.length < 1) return message.reply('Write the name').catch(console.error);
+       if (message.mentions.users.size < 1) return message.author.send('You must mention a user to change their nickname. ❌').catch(console.error);
+       message.guild.member(changenick.id).setNickname(username);
+       message.channel.send("Done -> : " + changenick + "")
+   }
+}});
+
+
+
+
+client.on('message', message => {                      
+    if(!message.channel.guild) return;
+       if(message.content.startsWith(prefix + 'verify')) {
+        let modlog = client.channels.find('name', '☸「verified」');
+       if(!message.channel.guild) return message.channel.send('**This Command Only For Servers **').then(m => m.delete(5000));
+       message.channel.sendMessage(`To Verified Press`).then(msg => {
+       
+       
+        msg.react('✅')
+       .then(() => msg.react('✅'))
+     
+     
+ 
+       let activeFilter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
+     
+       let active = msg.createReactionCollector(activeFilter, { time: 15000 });
+     
+                                                       
+                               active.on("collect", r => {
+                                   message.member.addRole(message.guild.roles.find("name", "• Galaxy » Verify"));
+                                   message.member.removeRole(message.guild.roles.find("name", "⇌ Member Not Verify"));
+                                   msg.delete();
+                                   message.channel.send(`**You have been activated.**`).then(m => m.delete(1000));
+     
+                                   })
+                                   })
+                                   }
+                                   });
+
+
+
+
+
+
 
 
  client.on('message', message => {
