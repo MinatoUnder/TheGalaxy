@@ -57,22 +57,7 @@ client.on("message", message => {
 
 
 
-client.on("message",  message => {
-    var prefix = "/";
-    let args = message.content.split(' ').slice(1);
-if(message.content.startsWith(prefix + 'nic')) {
-   if (!message.member.hasPermission("MANAGE_NICKNAMES")) {
-       message.channel.send("Write the name")
-   } else {
-       if (!message.guild.member(client.user).hasPermission('MANAGE_NICKNAMES')) return message.reply(' ❌ Bot Is not have MANAGE_NICKNAMES.').catch(console.error);
-       let changenick = message.mentions.users.first();
-       let username = args.slice(1).join(' ')
-       if (username.length < 1) return message.reply('Write the name').catch(console.error);
-       if (message.mentions.users.size < 1) return message.author.send('You must mention a user to change their nickname. ❌').catch(console.error);
-       message.guild.member(changenick.id).setNickname(username);
-       message.channel.send("Done -> : " + changenick + "")
-   }
-}});
+
 
 
 
@@ -108,47 +93,6 @@ client.on('message', message => {
 
 
 
-client.on('message',async message => {
-    if(message.content.startsWith(prefix + "settime")) {
-    if(!message.guild.member(message.author).hasPermission('MANAGE_CHANNELS')) return message.reply('❌ **You are not admin**');
-    if(!message.guild.member(client.user).hasPermission(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **i done have prem**');
-    message.channel.send('✅| **Done**');
-    message.guild.createChannel("🕐 - Time  00", 'voice').then((c) => {
-      console.log(`Time channel setup for guild: \n ${message.guild.name}`);
-      c.overwritePermissions(message.guild.id, {
-        CONNECT: false,
-        SPEAK: false
-      });
-          setInterval(function() {
- 
-        var currentTime = new Date(),
-        hours = currentTime.getHours() + 3 ,
-        minutes = currentTime.getMinutes(),
-        seconds = currentTime.getSeconds(),
-        years = currentTime.getFullYear(),
-        month = currentTime.getMonth(),
-        day = currentTime.getDate(),
-        week = currentTime.getDay();
- 
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        var suffix = "AM";
-        if (hours >= 12) {
-            suffix = "PM";
-            hours = hours - 12;
-        }
-        if (hours == 0) {
-            hours = 12;
-        }
- 
-        c.setName("🕐 - Time   「" + hours + ":" + minutes  +" " + suffix + "」");
-      },1000);
-    });
-    }
-  });
-
-
 const bannedwords = [
     "verify"
 
@@ -162,10 +106,176 @@ client.on('message',  message => {
 
 
 
+client.on('message', message => {
+  var prefix ="/";
+if(message.content.startsWith(prefix +"server")){
+if(!message.channel.guild) return message.reply(' ');
+const millis = new Date().getTime() - message.guild.createdAt.getTime();
+const now = new Date();
+dateFormat(now, 'dddd, mmmm dS, yyyy, h:MM:ss TT');
+const verificationLevels = ['None', 'Low', 'Medium', 'Insane', 'Extreme'];
+const days = millis / 1000 / 60 / 60 / 24;
+let roles = client.guilds.get(message.guild.id).roles.map(r => r.name);
+var embed  = new Discord.RichEmbed()
+.setAuthor(message.guild.name, message.guild.iconURL)
+.addField("**🆔 Server ID:**", message.guild.id,true)
+.addField("**📅 Created On**", message.guild.createdAt.toLocaleString(),true)
+.addField("**👑 Owned by**",`${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`)
+.addField("👥 Members ",`[${message.guild.memberCount}]`,true)
+.addField('**💬 Channels **',`**${message.guild.channels.filter(m => m.type === 'text').size}**` + ' text | Voice  '+ `**${message.guild.channels.filter(m => m.type === 'voice').size}** `,true)
+.addField("**🌍 Others **" , message.guild.region,true)
+.addField("** 🔐 Roles **",`**[${message.guild.roles.size}]** Role `,true)
+.setColor('#000000')
+message.channel.sendEmbed(embed)
+
+}
+});
 
 
 
 
+  client.on('message', message => {
+    if (message.content.startsWith("link")) {
+      if(!message.guild.member(client.user).hasPermission("CREATE_INSTANT_INVITE")) return message.reply("**I Don't Have `CREATE_INSTANT_INVITE` Permission**").then(msg => msg.delete(6000))
+  
+        message.channel.createInvite({
+          thing: true,
+          maxUses: 5,
+          maxAge: 86400,
+    }).then(invite =>
+      message.author.sendMessage(invite.url)
+    )
+      message.channel.send("**:link: Invite Linke Sent In DM Successfully**")
+    }
+  });
+
+
+
+  const codes = {
+    ' ': '   ',
+    '0': '0⃣',
+    '1': '1⃣',
+    '2': '2⃣',
+    '3': '3⃣',
+    '4': '4⃣',
+    '5': '5⃣',
+    '6': '6⃣',
+    '7': '7⃣',
+    '8': '8⃣',
+    '9': '9⃣',
+    '!': '❕',
+    '?': '❔',
+    '#': '#⃣',
+    '*': '*⃣'
+  };
+  
+  'abcdefghijklmnopqrstuvwxyz'.split('').forEach(c => {
+    codes[c] = codes[c.toUpperCase()] = ` :regional_indicator_${c}:`;
+  });
+  
+  
+  client.on('message' , async message => {
+	  var prefix = "/";
+         if(message.content.startsWith(prefix + "emoji")) {
+            let args = message.content.split(" ").slice(1);
+    if (args.length < 1) {
+      message.channel.send('**You must provide some text to emojify!**');
+  }
+  
+  message.channel.send(
+      args.join(' ')
+          .split('')
+          .map(c => codes[c] || c)
+          .join('')
+  );
+  };
+  });
+
+
+
+
+client.on("message", message => {
+if (message.content === ("/ac1")) {
+let channel = message.client.channels.find('name', "everyone");
+let muteRole = client.guilds.get(message.guild.id).channels.find('name', '✥ Galaxy Members ⇝ ');
+if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر R-Ch **").catch(console.error);
+if(!message.channel.guild) return message.reply('**Commands in the server**');
+if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send('**أنت ليس لديك برمشن** `ADMINISTRATOR`' );
+channel.edit({name : `memberCount「${message.guild.memberCount}」`});
+message.channel.sendMessage("تم تفعيل الروم بنجاح")
+      
+  }
+});
+
+
+client.on("message", message => {
+  if (message.content === ("/ac2")) {
+          let channel = message.client.channels.find('name', "✥ Galaxy hour ⇝ ");
+           let muteRole = client.guilds.get(message.guild.id).channels.find('name', 'hour');
+  if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر /Ch **").catch(console.error);
+             if(!message.channel.guild) return message.reply('**Commands in the server**');
+	                         if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send('**أنت ليس لديك برمشن** `ADMINISTRATOR`' );
+              var currentTime = new Date(),
+            hours = currentTime.getHours() + 3 ,
+            minutes = currentTime.getMinutes(),
+            seconds = currentTime.getSeconds(),
+            years = currentTime.getFullYear(),
+            month = currentTime.getMonth() + 3,
+            day = currentTime.getDate(),
+            week = currentTime.getDay();
+           
+ 
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            var suffix = "AM";
+            if (hours >= 12) {
+                suffix = "PM";
+                hours = hours - 12;
+            }
+            if (hours == 0) {
+                hours = 12;
+            }
+    channel.edit({name : "🕐 - Time   「" + hours + ":" + minutes  +" " + suffix + "」"});
+  message.channel.sendMessage("تم تفعيل الروم بنجاح");
+  }
+});
+client.on("message", message => {
+    if (message.content === ("/ac3")) {
+          let muteRole = client.guilds.get(message.guild.id).channels.find('name', 'date');
+  if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر /Ch **").catch(console.error);
+           
+                   if(!message.channel.guild) return message.reply('**Commands in the server**');
+	        if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send('**أنت ليس لديك برمشن** `ADMINISTRATOR`' );
+            
+          let channel = message.client.channels.find('name', "✥ Galaxy date ⇝ ");
+              var currentTime = new Date(),
+            years = currentTime.getFullYear(),
+            month = currentTime.getMonth() + 1,
+            day = currentTime.getDate(),
+            week = currentTime.getDay();
+   
+    channel.edit({name : "📅 - Date " + "「" + day + "-" + month + "-" + years + "」"});
+message.channel.sendMessage("Done");
+}
+});
+
+
+
+client.on("message", (message) => {
+if (message.content === ("/Ch")) {
+if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send("**أنت ليس لديك برمشن** `ADMINISTRATOR`" );
+	      if(!message.guild.member(client.user).hasPermission("MANAGE_CHANNELS")) return message.reply("**يحتاج البوت الى خاصية` MANAGE_CHANNELS ` **").then(msg => msg.delete(6000))
+
+    message.guild.createChannel('✥ Galaxy hour ⇝ ', 'voice');
+    message.guild.createChannel('✥ Galaxy date ⇝ ', 'voice');
+    message.guild.createChannel('✥ Galaxy Members ⇝ ', 'voice');
+message.channel.sendMessage('**تم إنشاء روم ساعة :small_orange_diamond:**');
+message.channel.sendMessage('**تم إنشاء روم تاريخ :small_orange_diamond:**');
+message.channel.sendMessage('**تم إنشاء روم عداد الأعضآء :small_orange_diamond:**');
+message.reply ("لتفعيل الرومات اكتب `R-Ch ac`");  
+}
+});
 
 
 
@@ -322,7 +432,7 @@ client.on('guildMemberAdd', (member) => {
    
     if (!modlog) return message.reply('**Report Room is Not available**');
     const embed = new Discord.RichEmbed()
-      .setColor(0x00AE86)
+      .setColor(0x8600AE)
       .setTimestamp()
       .addField('Message Type :', 'Report')
       .addField('Member Reported :', `${user.username}#${user.discriminator} (${user.id}`)
@@ -339,119 +449,7 @@ client.on('guildMemberAdd', (member) => {
 
 
 
-//apply
-client.on('message', async message => {
-    var command = message.content.toLowerCase().split(" ")[0];
-    var prefix = '/';
-    var name = '';
-    var age = '';
-    var fromwhere = '';
-    var fa2dh = '';
-    var filter = m => m.author.id === message.author.id;
-    var subChannel = message.guild.channels.find(c => c.name === 'support-request');
-   
-    if(command == prefix + 'aggggply') {
-        if(message.author.bot) return;
-        if(message.channel.type === 'dm') return;
- 
-        var modRole = message.guild.roles.find(r => r.name === '• Galaxy » Support');
-       
-        if(message.guild.member(message.author).roles.has(modRole.id)) return message.channel.send(':x: | معك الرتبة');
-        if(!subChannel) return message.channel.send(':x: | must have room support-accpeted `seller-accpeted`');
-       
-        message.channel.send(':timer: | **Write your real name now please**').then(msgS => {
-            message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] }).then(collected => {
-                name = collected.first().content;
-                collected.first().delete();
-                msgS.edit(':timer: | **Write your Age now please**').then(msgS => {
-                    message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] }).then(collected => {
-                        age = collected.first().content;
-                        collected.first().delete();
-                        msgS.edit(':timer: | **Please write from which country you are**').then(msgS => {
-                            message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] }).then(collected => {
-                                fromwhere = collected.first().content;
-                                collected.first().delete();
-                                msgS.edit(':timer: | **Please write Why do you want to be from**').then(msgS => {
-                                    message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] }).then(collected => {
-                                        fa2dh = collected.first().content;
-                                        collected.first().delete();
-                                       
-                                        let embedS = new Discord.RichEmbed()
-                                        .setAuthor(message.author.tag, message.author.avatarURL)
-                                        .setThumbnail(message.author.avatarURL)
-                                        .setDescription('**\n:no_entry: Do you want to apply ?**')
-                                        .setColor('GREEN')
-                                        .addField('Name', name, true)
-                                        .addField('Age', age, true)
-                                        .addField('From', fromwhere, true)
-                                        .addField('why', fa2dh, true)
-                                        .setTimestamp()
-                                        .setFooter(message.guild.name, message.guild.iconURL)
-                                       
-                                        msgS.delete();
-                                        message.channel.send(embedS).then(msgS => {
-                                            msgS.react('✅').then(() => msgS.react('❎'))
-                                           
-                                            let yesSure = (reaction, user) => reaction.emoji.name === '✅'  && user.id === message.author.id;
-                                            let no = (reaction, user) => reaction.emoji.name === '❎' && user.id === message.author.id;
-                                           
-                                            let yesSend = msgS.createReactionCollector(yesSure);
-                                            let dontSend = msgS.createReactionCollector(no);
-                                           
-                                            yesSend.on('collect', r => {
-                                                msgS.delete();
-                                                message.channel.send('✅ | Your request has been successfully submitted Wait for the result in Room seller-accpeted').then(msg => msg.delete(5000));
-                                               
-                                                let subMsg = new Discord.RichEmbed()
-                                                .setAuthor(message.author.tag, message.author.avatarURL)
-                                                .setColor('GREEN')
-                                                .setThumbnail(message.author.avatarURL)
-                                                .addField('Name', name)
-                                                .addField('Age', age)
-                                                .addField('From', fromwhere)
-                                                .addField('Why he wants to apply', fa2dh)
-                                                .addField('Account', message.author)
-                                                .addField('Account id', message.author.id, true)
-                                               
-                                                subChannel.send(subMsg).then(msgS => {
-                                                    msgS.react('✅').then(() => msgS.react('❎'))
-                                                   
-                                                    let accept = (reaction, user) => reaction.emoji.name === '✅'  && user.id === '415595760990552065'
-                                                    let noAccept = (reaction, user) => reaction.emoji.name === '❎' && user.id === '415595760990552065'
-                                                   
-                                                    let acceptRe = msgS.createReactionCollector(accept);
-                                                    let noAcceptRe = msgS.createReactionCollector(noAccept);
-                                                   
-                                                    acceptRe.on('collect', r => {
-                                                        msgS.delete();
-                                                        message.author.send(`✅ | You have been accepted **${message.guild.name}**`);
-                                                        message.guild.member(message.author).addRole(modRole.id);
-                                                        message.guild.channels.find(r => r.name === 'support-accepted').send(`✅ | تم قبولك [ <@${message.author.id}> ]`);
-                                                    }).catch();
-                                                    noAcceptRe.on('collect', r => {
-                                                        msgS.delete();
-                                                        message.author.send(` |❎ You have been rejected **${message.guild.name}**`);
-                                                        message.guild.channels.find(r => r.name === 'support-unacceptable').send(`❎ | تم رفضك [ <@${message.author.id}> ]`);
-                                                    }).catch();
-                                                })
-                                            });
-                                            dontSend.on('collect', r => {
-                                                msgS.delete();
-                                                message.channel.send('❎ | Your apply has been canceled');
-                                            });
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
-                })
-            })
-        })
-    }
-});
-
-
+//move
 client.on('message',message => {
 if(!message.channel.guild) return;
     var prefix1 = "/";
@@ -976,7 +974,7 @@ var args = message.content.split(" ").slice(1);
       try{
         muterole = await message.guild.createRole({
           name: "Muted",
-          color: "#070000",
+          color: "000000",
           permissions:[]
         })
         message.guild.channels.forEach(async (channel, id) => {
@@ -1164,7 +1162,7 @@ client.on('message', message => {
 
 client.on("message", message => {
   let men = message.mentions.users.first();
-  if(message.content.startsWith(prefix + 'voicekick')) {
+  if(message.content.startsWith(prefix + 'vkick')) {
     try {
     if(!men) {
       message.channel.send("**Mention A Person**");
@@ -1354,7 +1352,6 @@ eyad.channel.sendEmbed(Embed11).then(eyad => {eyad.delete(15000)})
 
 
 
-
 client.on('message', message => {
     if (message.content.startsWith(prefix + "avatar")) {
         var mentionned = message.mentions.users.first();
@@ -1386,19 +1383,6 @@ msg.channel.send(`**Bot InviteURL : ** https://discordapp.com/oauth2/authorize?c
 
 
 
-
-client.on('message', message => {
-  if (message.content.startsWith('/welcome')) {
-    const voiceChannel = message.member.voiceChannel;
-    voiceChannel.join()
-      .then(connnection => {
-        const stream = ytdl("https://www.youtube.com/watch?v=EBad-LxJJnE", { filter: 'audioonly' });
-        const dispatcher = connnection.playStream(stream);
-                dispatcher.on('end', () => voiceChannel.leave());
-
-      });///////////MaL Team 
-  }
-})//////////////////////////Mal Team
 
 
 
