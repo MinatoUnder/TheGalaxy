@@ -196,7 +196,7 @@ message.channel.sendEmbed(embed)
 
 client.on("message", message => {
 if (message.content === ("/ac1")) {
-let channel = message.client.channels.find('name', "everyone");
+let channel = message.client.channels.find('name', "✥ Galaxy Members ⇝ ");
 let muteRole = client.guilds.get(message.guild.id).channels.find('name', '✥ Galaxy Members ⇝ ');
 if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر R-Ch **").catch(console.error);
 if(!message.channel.guild) return message.reply('**Commands in the server**');
@@ -211,7 +211,7 @@ message.channel.sendMessage("تم تفعيل الروم بنجاح")
 client.on("message", message => {
   if (message.content === ("/ac2")) {
           let channel = message.client.channels.find('name', "✥ Galaxy hour ⇝ ");
-           let muteRole = client.guilds.get(message.guild.id).channels.find('name', 'hour');
+           let muteRole = client.guilds.get(message.guild.id).channels.find('name', '✥ Galaxy hour ⇝ ');
   if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر /Ch **").catch(console.error);
              if(!message.channel.guild) return message.reply('**Commands in the server**');
 	                         if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send('**أنت ليس لديك برمشن** `ADMINISTRATOR`' );
@@ -242,7 +242,7 @@ client.on("message", message => {
 });
 client.on("message", message => {
     if (message.content === ("/ac3")) {
-          let muteRole = client.guilds.get(message.guild.id).channels.find('name', 'date');
+          let muteRole = client.guilds.get(message.guild.id).channels.find('name', '✥ Galaxy date ⇝ ');
   if (!muteRole) return message.reply("** قم بإنشآء الرومات اولا عن طريق الامر /Ch **").catch(console.error);
            
                    if(!message.channel.guild) return message.reply('**Commands in the server**');
