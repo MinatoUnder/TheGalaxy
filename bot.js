@@ -156,7 +156,7 @@ const bannedwords = [
 
 client.on('message',  message => {
   if(bannedwords.some(word => message.content.includes(word))) {
-    message.delete()};
+    message.delete()
   };
 });
 
