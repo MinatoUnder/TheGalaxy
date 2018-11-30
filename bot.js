@@ -79,10 +79,10 @@ if(message.content.startsWith(prefix + 'nic')) {
 
 client.on('message', message => {                      
     if(!message.channel.guild) return;
-       if(message.content.startsWith(prefix + 'verify')) {
+       if(message.content.startsWith(prefix + 'verify'))
         let modlog = client.channels.find('name', '☸「verified」');
        if(!message.channel.guild) return message.channel.send('**This Command Only For Servers **').then(m => m.delete(5000));
-       message.channel.sendMessage(`To Verified Press`).then(msg => {
+       message.channel.sendMessage(`**To Verified Press** 🌹.`).then(msg => {
        
        
         msg.react('✅')
@@ -107,6 +107,15 @@ client.on('message', message => {
                                    });
 
 
+client.on('message', message => {                      
+    if(!message.channel.guild) return;
+       if(message.content.startsWith(prefix + 'verify'))
+         .then(m => m.delete(5000));
+
+                                   })
+                                   })
+                                   }
+                                   });
 
 
 
