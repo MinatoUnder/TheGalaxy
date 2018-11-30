@@ -106,15 +106,90 @@ client.on('message', message => {
                                    }
                                    });
 
-client.on('message', message => {                      
-    if(!message.channel.guild) return;
-       if(message.content.startsWith(prefix + 'verify')) {
-                                   msg.delete();
-     
-                                   })
-                                   })
-                                   }
-                                   });
+
+
+client.on('message',async message => {
+    if(message.content.startsWith(prefix + "settime")) {
+    if(!message.guild.member(message.author).hasPermission('MANAGE_CHANNELS')) return message.reply('❌ **You are not admin**');
+    if(!message.guild.member(client.user).hasPermission(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **i done have prem**');
+    message.channel.send('✅| **Done**');
+    message.guild.createChannel("🕐 - Time  00", 'voice').then((c) => {
+      console.log(`Time channel setup for guild: \n ${message.guild.name}`);
+      c.overwritePermissions(message.guild.id, {
+        CONNECT: false,
+        SPEAK: false
+      });
+          setInterval(function() {
+ 
+        var currentTime = new Date(),
+        hours = currentTime.getHours() + 3 ,
+        minutes = currentTime.getMinutes(),
+        seconds = currentTime.getSeconds(),
+        years = currentTime.getFullYear(),
+        month = currentTime.getMonth(),
+        day = currentTime.getDate(),
+        week = currentTime.getDay();
+ 
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var suffix = "AM";
+        if (hours >= 12) {
+            suffix = "PM";
+            hours = hours - 12;
+        }
+        if (hours == 0) {
+            hours = 12;
+        }
+ 
+        c.setName("🕐 - Time   「" + hours + ":" + minutes  +" " + suffix + "」");
+      },1000);
+    });
+    }
+  });
+
+
+const bannedwords = [
+    "verify"
+
+  ];
+
+client.on('message',  message => {
+  if(bannedwords.some(word => message.content.includes(word))) {
+    message.delete()});;
+  };
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+client.on('message', message => { 
+    var prefix = "/";
+ let args = message.content.split(' ').slice(1);
+    if(message.content.startsWith(prefix + 'short')) {
+    if(!message.channel.guild) return;  
+
+        googl.setKey('AIzaSyC2Z2mZ_nZTcSvh3QvIyrmOIFP6Ra6co6w');
+        googl.getKey();
+        googl.shorten(args.join(' ')).then(shorturl => {
+            message.channel.send(''+shorturl)
+        }).catch(e=>{
+            console.log(e.message);
+            message.channel.send('Error!');
+        });
+}
+});
+
+
 
 
 
@@ -1339,8 +1414,8 @@ client.on('message', message => {
 
 
 client.on('message', async message => {
-  if(message.content.startsWith(prefix + "write")) {
-  await  message.channel.send(`write You`)
+  if(message.content.startsWith(prefix + "wr")) {
+  await  message.channel.send(`Write`)
     let filter = m => m.author.id === message.author.id
       var text = '';
         let sugsa = message.channel.awaitMessages(filter, { max: 1, time: 60000})
@@ -1348,45 +1423,22 @@ client.on('message', async message => {
             text = co.first().content
 
               message.channel.send(`Done`)
-                client.channels.get("508469157893898244").send(`${message.author.username}'s said => ${text}`)
+                client.channels.get("517831279324954633").send(`${message.author.username}'s said => ${text}`)
 
               })
             }
           })
 
 
-client.on('guildMemberAdd', member => { //LAST CODES -HONRAR-
-  member.guild.fetchInvites().then(guildInvites => {
-    const ei = invites[member.guild.id];
-    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
-    const inviter = client.users.get(invite.inviter.id);
-    const stewart = member.guild.channels.find("name", "﹐general");
-     stewart.send(`<@${member.user.id}> Invite By <@${inviter.id}>`);
-   //  stewart.send(`<@${member.user.id}> joined using invite code ${invite.code} from <@${inviter.id}>. Invite was used ${invite.uses} times since its creation.`);
-  });
-})
 
 
-client.on('message', msg => {
 
-    if (msg.content == '$join') {
-        if (msg.member.voiceChannel) {
-
-     if (msg.member.voiceChannel.joinable) {
-         msg.member.voiceChannel.join().then(msg.react('white_check_mark'));
-     }
-    }
-}
-})
-client.on('ready', () => { //code bot not leave room voice //Bot Is Online
-    client.channels.get("517823824348053535").join(); //by : Toxic Codes
-    });
 
 
 
 
 client.on('message', async msg => {
-const devs = ['Your ID here'];
+const devs = ['415595760990552065'];
 if(!devs.includes(message.author.id)) return;
   if(msg.author.bot) return;
   let prefix = "$";
