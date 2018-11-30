@@ -1353,17 +1353,6 @@ eyad.channel.sendEmbed(Embed11).then(eyad => {eyad.delete(15000)})
 
 
 
-client.on('message', message => {
-  if(message.content.startsWith(prefix + "invites")) {
-   message.guild.fetchInvites().then(invs => {
-     let user = message.mentions.users.first() || message.author
-     let personalInvites = invs.filter(i => i.inviter.id === user.id);
-     let inviteCount = personalInvites.reduce((p, v) => v.uses + p, 0);
-message.channel.send(`${user} has ${inviteCount} invites.`);
-});
- }
-});
-
 
 
 client.on('message', message => {
@@ -1437,21 +1426,6 @@ client.on('message', async message => {
 
 
 
-client.on('message', async msg => {
-const devs = ['415595760990552065'];
-if(!devs.includes(message.author.id)) return;
-  if(msg.author.bot) return;
-  let prefix = "$";
-  if(!msg.content.startsWith(prefix)) return;
-  let command = msg.content.split(" ")[0].slice(prefix.length);
-  let args = msg.content.split(" ").slice(1);
- 
-  if(command == 'say') {
-    if(!args.join(" ")) return msg.delete();
-    msg.channel.send(args.join(" "));
-    return;
-  }
-});
 
 
 
